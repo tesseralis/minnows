@@ -1,14 +1,16 @@
-const counts = [0, 1, 1, 2, 5, 12, 35]
+const counts = [1, 1, 2, 5, 12, 35]
 
 const canvasLength = 960
 const ringSpacing = 50
+
+const topAngle = -Math.PI/2;
 
 const svg = d3.select('body').append('svg')
   .attr('width', canvasLength)
   .attr('height', canvasLength)
 
 svg.selectAll('circle.ring')
-  .data(d3.range(1, counts.length))
+  .data(d3.range(counts.length))
   .enter()
   .append('circle')
   .classed('ring', true)
@@ -30,5 +32,5 @@ d3.select('svg').selectAll('.generation')
   .append('circle')
   .classed('mino', true)
   .attr('r', 5)
-  .attr('cx', (d, i) => canvasLength/2 + d[1] * ringSpacing * Math.cos(d[0] * 2 * Math.PI))
-  .attr('cy', (d, i) => canvasLength/2 + d[1] * ringSpacing * Math.sin(d[0] * 2 * Math.PI))
+  .attr('cx', (d, i) => canvasLength/2 + d[1] * ringSpacing * Math.cos(d[0] * 2 * Math.PI + topAngle))
+  .attr('cy', (d, i) => canvasLength/2 + d[1] * ringSpacing * Math.sin(d[0] * 2 * Math.PI + topAngle))
