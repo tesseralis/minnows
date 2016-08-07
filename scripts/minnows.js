@@ -31,7 +31,7 @@ function drawPolyominoes(element, polyominoes, linkData) {
   const curve = d3.radialLine()
     .radius(d => d.radius)
     .angle(d => d.angle)
-    .curve(d3.curveBasis)
+    .curve(d3.curveNatural)
 
   function radiusAndAngle([gen, i]) {
     const radius = ringRadius(gen)
@@ -45,14 +45,21 @@ function drawPolyominoes(element, polyominoes, linkData) {
     return result % (2*Math.PI)
   }
 
-  // Add a third value in between the edges so we have a curve
+  function avgPolar(a, b) {
+    const radius = avg(a.radius, b.radius)
+    const angle = avgAngle(a.angle, b.angle)
+    return {radius, angle}
+  }
+
+  // Add inbetween values in between the edges so we have a curve
   function spline({source, target}) {
     const src = radiusAndAngle(source)
     const tgt = radiusAndAngle(target)
 
-    const midRad = avg(src.radius, tgt.radius)
-    const midAngle = avgAngle(src.angle, tgt.angle)
-    return [src, {radius: midRad, angle: midAngle}, tgt]
+    const half = avgPolar(src, tgt)
+    const q1 = avgPolar(src, half)
+    const q3 = avgPolar(half, tgt)
+    return [src, q1, half, q3, tgt]
   }
     
   const links = diagram.append('g').classed('links', true)
