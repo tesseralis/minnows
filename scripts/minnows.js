@@ -100,15 +100,11 @@ function drawPolyominoes(element, polyominoes, linkData) {
       d3.select(this).selectAll('.block').classed('isFocused', true)
 
       const gen = d.length - 1
+      const compare = (d) => d[0] === gen && d[1] === i
 
-      link.classed('isFocused', ({source, target}) => {
-        return source[0] === gen && source[1] === i ||
-               target[0] === gen && target[1] === i
-      }).classed('isSource', ({source, target}) => {
-        return source[0] === gen && source[1] === i
-      }).classed('isTarget', ({source, target}) => {
-        return target[0] === gen && target[1] === i
-      })
+      link.classed('isFocused', ({source, target}) => compare(source) || compare(target))
+        .classed('isSource', ({source, target}) => compare(source))
+        .classed('isTarget', ({source, target}) => compare(target))
     })
     .on('mouseout', function(d, i) {
       d3.select(this).selectAll('.block').classed('isFocused', false)
