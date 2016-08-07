@@ -14,7 +14,7 @@ svg {
 }
 
 .block {
-  stroke: black;
+  stroke: SlateGray;
   stroke-width: 0.5px;
   fill: gray;
   transition: stroke-width 0.2s;
