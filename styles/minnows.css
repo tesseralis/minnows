@@ -19,10 +19,21 @@ svg {
   fill: gray;
 }
 
+.block.isFocused {
+  stroke: red;
+  stroke-width: 1px;
+}
+
 .link {
   stroke: gray;
   stroke-width: 0.5px;
+  stroke-opacity: 0.5;
   fill: none;
+}
+
+.link.isFocused {
+  stroke-width: 1px;
+  stroke-opacity: 1;
 }
 
 /* Gen specific */
