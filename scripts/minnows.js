@@ -1,6 +1,5 @@
-const counts = [1, 1, 2, 5, 12, 35]
-
-const canvasLength = 960
+const canvasLength = 700
+const ringRadiusBase = 18
 const blockSize = 8
 
 const svg = d3.select('body').append('svg')
@@ -8,7 +7,7 @@ const svg = d3.select('body').append('svg')
   .attr('height', canvasLength)
 
 function ringRadius(gen) {
-  return 25 * Math.pow(gen, 1.75);
+  return ringRadiusBase * Math.pow(gen, 1.75);
 }
 
 // Draw the minos for each generation
