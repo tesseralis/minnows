@@ -16,11 +16,42 @@ function drawPolyominoes(element, polyominoes, links) {
   // Draw the concentric orbital rings
   diagram.append('g').classed('orbitals', true).selectAll('circle.orbital')
     .data(d3.range(polyominoes.length))
-    .enter().append('circle').classed('ring', true)
+    .enter().append('circle').classed('orbital', true)
     .attr('r', d => d * ringSpacing)
-    .attr('stroke', 'black')
-    .attr('fill', 'none')
     .attr('data-generation', d => d + 1)
+
+  // Draw links between parent and child
+  const curve = d3.radialLine()
+    .radius(d => d.radius)
+    .angle(d => d.angle)
+    .curve(d3.curveBasis)
+
+  function radiusAndAngle([gen, i]) {
+    const radius = gen * ringSpacing
+    const angle = i/polyominoes[gen].length * 2*Math.PI
+    return {radius, angle}
+  }
+
+  const avg = (a, b) => (a+b)/2
+  function avgAngle(a, b) {
+    const x = Math.abs(a - b)
+    const result = x < Math.PI ? (a + b)/2 : (a + b)/2 + Math.PI
+    return result % (2*Math.PI)
+  }
+
+  function spline({source, target}) {
+    const src = radiusAndAngle(source)
+    const tgt = radiusAndAngle(target)
+
+    const midRad = avg(src.radius, tgt.radius)
+    const midAngle = avgAngle(src.angle, tgt.angle)
+    return [src, {radius: midRad, angle: midAngle}, tgt]
+  }
+    
+  diagram.append('g').classed('links', true).selectAll('path.link')
+    .data(links.map(spline))
+    .enter().append('path').classed('link', true)
+    .attr('d', curve)
 
   // Draw groups for each generation
   const generations = diagram.append('g').classed('generations', true)
@@ -55,42 +86,6 @@ function drawPolyominoes(element, polyominoes, links) {
     .attr('height', blockSize)
     .attr('x', d => d[0] * blockSize)
     .attr('y', d => d[1] * blockSize)
-
-  // Draw links between parent and child
-  const curve = d3.radialLine()
-    .radius(d => d.radius)
-    .angle(d => d.angle)
-    .curve(d3.curveBasis)
-
-  function radiusAndAngle([gen, i]) {
-    const radius = gen * ringSpacing
-    const angle = i/polyominoes[gen].length * 2*Math.PI
-    return {radius, angle}
-  }
-
-  const avg = (a, b) => (a+b)/2
-  function avgAngle(a, b) {
-    const x = Math.abs(a - b)
-    const result = x < Math.PI ? (a + b)/2 : (a + b)/2 + Math.PI
-    return result % (2*Math.PI)
-  }
-
-  function spline({source, target}) {
-    const src = radiusAndAngle(source)
-    const tgt = radiusAndAngle(target)
-
-    const midRad = avg(src.radius, tgt.radius)
-    const midAngle = avgAngle(src.angle, tgt.angle)
-    return [src, {radius: midRad, angle: midAngle}, tgt]
-  }
-    
-  diagram.append('g').classed('links', true).selectAll('path.link')
-    .data(links.map(spline))
-    .enter().append('path').classed('link', true)
-    .attr('d', curve)
-    .attr('stroke', 'black')
-    .attr('stroke-width', 1)
-    .attr('fill', 'none')
 }
 
 d3.json('data/minos.json', (data) => {

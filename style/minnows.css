@@ -1,0 +1,17 @@
+.orbital {
+  stroke: gray;
+  stroke-width: 0.5px;
+  fill: none;
+}
+
+.block {
+  stroke: black;
+  stroke-width: 0.5px;
+  fill: gray;
+}
+
+.link {
+  stroke: gray;
+  stroke-width: 0.5px;
+  fill: none;
+}
