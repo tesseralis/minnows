@@ -29,11 +29,20 @@ svg {
   stroke-width: 0.5px;
   stroke-opacity: 0.5;
   fill: none;
+  transition: stroke-opacity 0.2s;
 }
 
 .link.isFocused {
   stroke-width: 1px;
   stroke-opacity: 1;
+}
+
+.link.isTarget {
+  stroke: blue;
+}
+
+.link.isSource {
+  stroke: red;
 }
 
 /* Gen specific */

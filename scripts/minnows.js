@@ -1,5 +1,6 @@
 const canvasLength = 700
-const ringRadiusBase = 18
+const ringRadiusBase = 13
+const ringRadiusPower = 2
 const blockSize = 8
 
 // Utility functions
@@ -7,7 +8,7 @@ function sum(arr) { return arr.reduce((a, b) => a + b, 0); }
 function avg(...arr) { return sum(arr) / arr.length; }
 
 function ringRadius(gen) {
-  return ringRadiusBase * Math.pow(gen, 1.75);
+  return ringRadiusBase * Math.pow(gen, ringRadiusPower);
 }
 
 const svg = d3.select('body').append('svg')
@@ -103,11 +104,15 @@ function drawPolyominoes(element, polyominoes, linkData) {
       link.classed('isFocused', ({source, target}) => {
         return source[0] === gen && source[1] === i ||
                target[0] === gen && target[1] === i
+      }).classed('isSource', ({source, target}) => {
+        return source[0] === gen && source[1] === i
+      }).classed('isTarget', ({source, target}) => {
+        return target[0] === gen && target[1] === i
       })
     })
     .on('mouseout', function(d, i) {
       d3.select(this).selectAll('.block').classed('isFocused', false)
-      link.classed('isFocused', false)
+      link.classed('isFocused isSource isTarget', false)
     })
 
   // Draw the squares on each polyomino
