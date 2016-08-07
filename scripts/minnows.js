@@ -77,7 +77,7 @@ function drawPolyominoes(element, polyominoes, linkData) {
     radius = ringRadius(genIndex)
     x = radius * Math.cos(i/numMinosInGen * 2 * Math.PI)
     y = radius * Math.sin(i/numMinosInGen * 2 * Math.PI)
-    return `translate(${x} ${y})`
+    return `translate(${x} ${y}) rotate(90)`
   }
 
   const minoWrapper = generation.selectAll('.mino-wrapper')
