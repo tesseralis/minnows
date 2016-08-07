@@ -51,15 +51,20 @@ function drawPolyominoes(element, polyominoes, linkData) {
     return {radius, angle}
   }
 
+  function interpolatePolar(a, b, n=0) {
+    const half = avgPolar(a, b)
+    if (n === 0) {
+      return [half]
+    } else {
+      return [...interpolatePolar(a, half, n-1), half, ...interpolatePolar(half, b, n-1)]
+    }
+  }
+
   // Add inbetween values in between the edges so we have a curve
   function spline({source, target}) {
     const src = radiusAndAngle(source)
     const tgt = radiusAndAngle(target)
-
-    const half = avgPolar(src, tgt)
-    const q1 = avgPolar(src, half)
-    const q3 = avgPolar(half, tgt)
-    return [src, q1, half, q3, tgt]
+    return [src, ...interpolatePolar(src, tgt, 5), tgt]
   }
     
   const links = diagram.append('g').classed('links', true)
