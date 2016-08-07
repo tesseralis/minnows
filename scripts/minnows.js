@@ -91,18 +91,13 @@ function drawPolyominoes(element, polyominoes, linkData) {
     radius = ringRadius(genIndex)
     x = radius * Math.cos(i/numMinosInGen * 2 * Math.PI)
     y = radius * Math.sin(i/numMinosInGen * 2 * Math.PI)
-
-    // Offset the mino's size
-    const xAvg = avg(...mino.map(c => c[0]))
-    const yAvg = avg(...mino.map(c => c[1]))
-    const translate = (x) => -x * blockSize - blockSize/2
-    return `translate(${x},${y}) rotate(90) translate(${translate(xAvg)},${translate(yAvg)})`
+    return `translate(${x},${y}) rotate(90)`
   }
 
-  const minoWrapper = generation.selectAll('.mino-wrapper')
+  const minoWrapper = generation.selectAll('.minoWrapper')
     .data(generation => generation)
     .enter().append('g')
-    .classed('mino-wrapper', true)
+    .classed('minoWrapper', true)
     .attr('transform', transformWrapper)
 
   const mino = minoWrapper.append('g').classed('mino', true)
@@ -118,8 +113,18 @@ function drawPolyominoes(element, polyominoes, linkData) {
       link.classed('isFocused', false)
     })
 
+  // Translate so that the mino is centered
+  function transformInner(mino) {
+    const xAvg = avg(...mino.map(c => c[0]))
+    const yAvg = avg(...mino.map(c => c[1]))
+    const translate = (x) => -x * blockSize - blockSize/2
+    return `translate(${translate(xAvg)},${translate(yAvg)})`
+  }
+  const minoInner = mino.append('g').classed('minoInner', true)
+    .attr('transform', transformInner)
+
   // Draw the squares on each polyomino
-  const block = mino.selectAll('rect.block')
+  const block = minoInner.selectAll('rect.block')
     .data(mino => mino)
     .enter().append('rect').classed('block', true)
     .attr('width', blockSize)
