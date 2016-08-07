@@ -24,3 +24,24 @@ svg {
   stroke-width: 0.5px;
   fill: none;
 }
+
+/* Gen specific */
+/* TODO this seems hacky... */
+.generation[data-generation='1'] .block {
+  fill: red;
+}
+.generation[data-generation='2'] .block {
+  fill: orange;
+}
+.generation[data-generation='3'] .block {
+  fill: yellow;
+}
+.generation[data-generation='4'] .block {
+  fill: green;
+}
+.generation[data-generation='5'] .block {
+  fill: blue;
+}
+.generation[data-generation='6'] .block {
+  fill: violet;
+}
