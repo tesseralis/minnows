@@ -31,7 +31,7 @@ svg {
 .link {
   stroke: LightSteelBlue;
   stroke-width: 0.5px;
-  stroke-opacity: 0.5;
+  stroke-opacity: 0.75;
   fill: none;
   transition: stroke 0.2s, stroke-opacity 0.2s;
 }
