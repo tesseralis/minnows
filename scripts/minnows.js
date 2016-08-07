@@ -1,4 +1,4 @@
-const canvasLength = 700
+const canvasLength = 800
 const ringRadiusBase = 80
 const blockSize = 8
 
