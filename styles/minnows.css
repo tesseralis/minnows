@@ -38,11 +38,11 @@ svg {
 }
 
 .link.isTarget {
-  stroke: blue;
+  stroke: FireBrick;
 }
 
 .link.isSource {
-  stroke: red;
+  stroke: RoyalBlue;
 }
 
 /* Gen specific */
