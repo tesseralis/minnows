@@ -17,10 +17,10 @@ svg {
   stroke: black;
   stroke-width: 0.5px;
   fill: gray;
+  transition: stroke-width 0.2s;
 }
 
 .block.isFocused {
-  stroke: red;
   stroke-width: 1px;
 }
 
@@ -29,7 +29,7 @@ svg {
   stroke-width: 0.5px;
   stroke-opacity: 0.5;
   fill: none;
-  transition: stroke-opacity 0.2s;
+  transition: stroke 0.2s, stroke-opacity 0.2s;
 }
 
 .link.isFocused {
