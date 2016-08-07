@@ -83,41 +83,37 @@ function drawPolyominoes(element, polyominoes, linkData) {
     .classed('generation', true)
     .attr('data-generation', (d, i) => i + 1)
 
-  function transform(mino, i) {
+  function transformWrapper(mino, i) {
     genIndex = mino.length -1
     // TODO it feels dirty referencing the parent element like this
     numMinosInGen = polyominoes[genIndex].length
     radius = ringRadius(genIndex)
     x = radius * Math.cos(i/numMinosInGen * 2 * Math.PI)
     y = radius * Math.sin(i/numMinosInGen * 2 * Math.PI)
-    return `translate(${x} ${y}) rotate(90)`
+
+    // Offset the mino's size
+    const xAvg = avg(...mino.map(c => c[0]))
+    const yAvg = avg(...mino.map(c => c[1]))
+    const translate = (x) => -x * blockSize - blockSize/2
+    return `translate(${x},${y}) rotate(90) translate(${translate(xAvg)},${translate(yAvg)})`
   }
 
   const minoWrapper = generation.selectAll('.mino-wrapper')
     .data(generation => generation)
     .enter().append('g')
     .classed('mino-wrapper', true)
-    .attr('transform', transform)
-
-  // Center the mino on 0,0
-  function translateMino(mino) {
-    const xAvg = avg(...mino.map(c => c[0]))
-    const yAvg = avg(...mino.map(c => c[1]))
-    const translate = (x) => -x * blockSize - blockSize/2
-    return `translate(${translate(xAvg)} ${translate(yAvg)})`
-  }
+    .attr('transform', transformWrapper)
 
   const mino = minoWrapper.append('g').classed('mino', true)
-    .attr('transform', translateMino)
     .on('mouseover', function(d, i) {
-      d3.select(this).selectAll('.block').classed('isFocused', true)
+      d3.select(this).classed('isFocused', true)
 
       const gen = d.length - 1
       const compare = (d) => d[0] === gen && d[1] === i
       link.classed('isFocused', ({source, target}) => compare(source) || compare(target))
     })
     .on('mouseout', function(d, i) {
-      d3.select(this).selectAll('.block').classed('isFocused', false)
+      d3.select(this).classed('isFocused', false)
       link.classed('isFocused', false)
     })
 

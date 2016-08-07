@@ -20,8 +20,12 @@ svg {
   transition: stroke-width 0.2s;
 }
 
-.block.isFocused {
-  stroke-width: 1px;
+.mino {
+  transition: transform 0.2s;
+}
+
+.mino.isFocused {
+  transform: scale(1.1);
 }
 
 .link {
