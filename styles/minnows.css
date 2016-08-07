@@ -72,8 +72,8 @@ svg {
   stroke: YellowGreen;
 }
 .link[data-generation='4'].isFocused {
-  stroke: Turquoise;
+  stroke: DarkCyan;
 }
 .link[data-generation='5'].isFocused {
-  stroke: SlateBlue;
+  stroke: DarkOrchid;
 }
