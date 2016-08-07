@@ -37,14 +37,6 @@ svg {
   stroke-opacity: 1;
 }
 
-.link.isTarget {
-  stroke: FireBrick;
-}
-
-.link.isSource {
-  stroke: RoyalBlue;
-}
-
 /* Gen specific */
 /* TODO this seems hacky... */
 .generation[data-generation='1'] .block {
@@ -64,4 +56,20 @@ svg {
 }
 .generation[data-generation='6'] .block {
   fill: Plum;
+}
+
+.link[data-generation='1'].isFocused {
+  stroke: OrangeRed;
+}
+.link[data-generation='2'].isFocused {
+  stroke: GoldenRod;
+}
+.link[data-generation='3'].isFocused {
+  stroke: YellowGreen;
+}
+.link[data-generation='4'].isFocused {
+  stroke: Turquoise;
+}
+.link[data-generation='5'].isFocused {
+  stroke: SlateBlue;
 }

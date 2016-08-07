@@ -72,6 +72,7 @@ function drawPolyominoes(element, polyominoes, linkData) {
     .data(linkData)
     .enter().append('path').classed('link', true)
     .attr('d', d => curve(spline(d)))
+    .attr('data-generation', d => d.source[0] + 1)
 
   // Draw groups for each generation
   const generations = diagram.append('g').classed('generations', true)
@@ -113,14 +114,11 @@ function drawPolyominoes(element, polyominoes, linkData) {
 
       const gen = d.length - 1
       const compare = (d) => d[0] === gen && d[1] === i
-
       link.classed('isFocused', ({source, target}) => compare(source) || compare(target))
-        .classed('isSource', ({source, target}) => compare(source))
-        .classed('isTarget', ({source, target}) => compare(target))
     })
     .on('mouseout', function(d, i) {
       d3.select(this).selectAll('.block').classed('isFocused', false)
-      link.classed('isFocused isSource isTarget', false)
+      link.classed('isFocused', false)
     })
 
   // Draw the squares on each polyomino
