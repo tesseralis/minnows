@@ -1,12 +1,15 @@
 const counts = [1, 1, 2, 5, 12, 35]
 
 const canvasLength = 960
-const ringSpacing = 75
 const blockSize = 8
 
 const svg = d3.select('body').append('svg')
   .attr('width', canvasLength)
   .attr('height', canvasLength)
+
+function ringRadius(gen) {
+  return 25 * Math.pow(gen, 1.75);
+}
 
 // Draw the minos for each generation
 function drawPolyominoes(element, polyominoes, links) {
@@ -17,7 +20,7 @@ function drawPolyominoes(element, polyominoes, links) {
   diagram.append('g').classed('orbitals', true).selectAll('circle.orbital')
     .data(d3.range(polyominoes.length))
     .enter().append('circle').classed('orbital', true)
-    .attr('r', d => d * ringSpacing)
+    .attr('r', ringRadius)
     .attr('data-generation', d => d + 1)
 
   // Draw links between parent and child
@@ -27,7 +30,7 @@ function drawPolyominoes(element, polyominoes, links) {
     .curve(d3.curveBasis)
 
   function radiusAndAngle([gen, i]) {
-    const radius = gen * ringSpacing
+    const radius = ringRadius(gen)
     const angle = i/polyominoes[gen].length * 2*Math.PI
     return {radius, angle}
   }
@@ -66,7 +69,7 @@ function drawPolyominoes(element, polyominoes, links) {
     genIndex = mino.length -1
     // TODO it feels dirty referencing the parent element like this
     numMinosInGen = polyominoes[genIndex].length
-    radius = genIndex * ringSpacing
+    radius = ringRadius(genIndex)
     x = radius * Math.cos(i/numMinosInGen * 2 * Math.PI)
     y = radius * Math.sin(i/numMinosInGen * 2 * Math.PI)
     return `translate(${x} ${y})`
