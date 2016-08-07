@@ -35,7 +35,8 @@ function drawPolyominoes(element, polyominoes, links) {
     return {radius, angle}
   }
 
-  const avg = (a, b) => (a+b)/2
+  function sum(arr) { return arr.reduce((a, b) => a + b, 0); }
+  function avg(...arr) { return sum(arr) / arr.length; }
   function avgAngle(a, b) {
     const x = Math.abs(a - b)
     const result = x < Math.PI ? (a + b)/2 : (a + b)/2 + Math.PI
@@ -81,8 +82,19 @@ function drawPolyominoes(element, polyominoes, links) {
     .classed('mino', true)
     .attr('transform', transform)
 
+  // Center the mino on 0,0
+  function translateMino(mino) {
+    const xAvg = avg(...mino.map(c => c[0]))
+    const yAvg = avg(...mino.map(c => c[1]))
+    const translate = (x) => -x * blockSize - blockSize/2
+    return `translate(${translate(xAvg)} ${translate(yAvg)})`
+  }
+
+  const minoWrappers = minos.append('g').classed('mino-wrapper', true)
+    .attr('transform', translateMino)
+
   // Draw the squares on each polyomino
-  minos.selectAll('rect.block')
+  minoWrappers.selectAll('rect.block')
     .data(mino => mino)
     .enter().append('rect').classed('block', true)
     .attr('width', blockSize)
