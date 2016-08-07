@@ -1,15 +1,10 @@
 const canvasLength = 700
 const ringRadiusBase = 80
 const blockSize = 8
-const numGenerations = 6
 
 // Utility functions
 function sum(arr) { return arr.reduce((a, b) => a + b, 0); }
 function avg(...arr) { return sum(arr) / arr.length; }
-
-function ringRadius(gen) {
-  return ringRadiusBase * Math.tan(gen / numGenerations * Math.PI / 2)
-}
 
 const svg = d3.select('body').append('svg')
   .attr('width', canvasLength)
@@ -17,6 +12,12 @@ const svg = d3.select('body').append('svg')
 
 // Draw the minos for each generation
 function drawPolyominoes(element, polyominoes, linkData) {
+  const numGenerations = polyominoes.length
+
+  function ringRadius(gen) {
+    return ringRadiusBase * Math.tan(gen / numGenerations * Math.PI / 2)
+  }
+
   const diagram = element.append('g').classed('diagram', true)
     .attr('transform', `translate(${canvasLength/2} ${canvasLength/2})`)
 
