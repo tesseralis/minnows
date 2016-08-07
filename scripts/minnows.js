@@ -131,6 +131,14 @@ function drawPolyominoes(element, polyominoes, linkData) {
     .attr('height', blockSize)
     .attr('x', d => d[0] * blockSize)
     .attr('y', d => d[1] * blockSize)
+
+  // Make the diagram visible
+  const diagramTransition = d3.transition()
+    .duration(1000)
+    .ease(d3.easeLinear)
+  diagram.attr('opacity', 0)
+    .transition(diagramTransition)
+    .attr('opacity', 1)
 }
 
 d3.json('data/minos.json', (data) => {
