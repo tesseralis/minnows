@@ -8,7 +8,7 @@ svg {
 }
 
 .orbital {
-  stroke: gray;
+  stroke: lightgray;
   stroke-width: 0.5px;
   fill: none;
 }
