@@ -58,7 +58,7 @@ def mino_key(m):
     """Generate a standard key for a polyomino"""
     #Sort the mino by order, then shape, then 'closeness to top'
     h, w = m.shape
-    return (len(m), h/w, sum(2**(i+j*w) for i, j in m))
+    return (len(m), h/w, sum(2**(i*w+j) for i, j in m))
 
 def _neighbors(point):
     """
